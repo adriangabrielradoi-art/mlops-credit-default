@@ -31,7 +31,7 @@ COVER = dict(
         "Lorenzo Simonazzi (20250402)",
         "[third member — name &amp; student number]",
     ],
-    runline=("Repository: [GitHub link / attached zip]. "
+    runline=("Repository: <b>github.com/adriangabrielradoi-art/mlops-credit-default</b>. "
              "Run with <code>uv sync</code> then <code>kedro run</code>, "
              "or open <code>notebooks/00_main.ipynb</code> and <b>Run All</b>."),
     date="June 2026",
