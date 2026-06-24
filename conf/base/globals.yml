@@ -1,0 +1,14 @@
+# Kedro globals — values interpolated into ``catalog.yml`` /
+# ``parameters.yml`` via the OmegaConf loader.
+#
+# These exist so common paths/names live in one place. Reference them
+# from other YAML files with the ``${globals:KEY}`` syntax once the
+# OmegaConfigLoader is wired in ``settings.py``.
+
+project_name: my_mlops_project        # matches the Python package name
+package_name: my_mlops_project
+
+# Centralised MLflow tracking URI. Default is a local SQLite file so
+# the team can run experiments without a server. Override in
+# ``conf/local/globals.yml`` if pointing at a remote MLflow server.
+mlflow_tracking_uri: sqlite:///mlflow.db

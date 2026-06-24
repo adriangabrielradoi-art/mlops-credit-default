@@ -1,0 +1,57 @@
+# --- Python -----------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Virtual environments --------------------------------------------
+.venv/
+.venv-mlops/
+.python-version
+
+# --- Jupyter ---------------------------------------------------------
+.ipynb_checkpoints/
+*.ipynb_meta
+
+# --- Kedro -----------------------------------------------------------
+# Kedro session store and run cache
+.kedro/
+info.log
+# Local-only config (credentials, per-dev overrides)
+conf/local/*
+!conf/local/.gitkeep
+
+# --- Data ------------------------------------------------------------
+# Keep the raw sample data so the repo is runnable (rubric: "a sample of
+# data to run"), but exclude every generated layer (regenerable, large).
+# data/01_raw is intentionally TRACKED.
+data/02_intermediate/*
+data/03_primary/*
+data/04_feature/*
+data/05_model_input/*
+data/06_models/*
+data/07_model_output/*
+data/08_reporting/*
+!data/**/.gitkeep
+
+# --- MLflow ----------------------------------------------------------
+mlruns/
+mlflow.db
+mlartifacts/
+
+# --- Great Expectations ----------------------------------------------
+gx/uncommitted/
+
+# --- IDE / OS --------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Report build artifacts ------------------------------------------
+report/REPORT.html
+report/*.pdf.aux
+report/*.log

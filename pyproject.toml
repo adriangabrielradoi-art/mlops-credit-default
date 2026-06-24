@@ -1,0 +1,58 @@
+[project]
+name = "my-mlops-project"
+version = "0.1.0"
+description = "MLOps pipeline for UCI Credit Card Default — Kedro + MLflow + GE + SHAP + Evidently"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    # --- Orchestration / project framework -------------------------------
+    "kedro>=1.0.0",              # the pipeline framework (kedro-mlflow 2.x needs >=1.0)
+    "kedro-datasets[pandas, matplotlib]",  # dataset impls (CSV/Excel/Parquet/pickle/json/plots)
+    "kedro-mlflow>=2.0.2",       # auto-logs every Kedro run as an MLflow run
+    # --- Experimentation -------------------------------------------------
+    "mlflow>=3.11.1",            # experiment tracking + model registry
+    "optuna>=4.8.0",             # hyperparameter optimisation
+    # --- Data quality / feature store ------------------------------------
+    "great-expectations>=1.16.1",  # data unit tests
+    "hopsworks>=5.0,<5.1",         # feature store — matches the 5.0 backend cluster
+    "ydata-profiling<=4.18.3",     # auto EDA / profiling
+    # --- Modelling -------------------------------------------------------
+    "scikit-learn>=1.5",         # models + split (was MISSING)
+    "shap>=0.46",                # explainability (was MISSING)
+    "pandas>=2.2",               # dataframes everywhere
+    "pyarrow>=17",               # parquet engine for the 8-layer datasets
+    "xlrd>=2.0",                 # read the legacy .xls raw file (was MISSING)
+    # --- Serving ---------------------------------------------------------
+    "fastapi>=0.115",            # model serving API (was MISSING)
+    "uvicorn>=0.30",             # ASGI server for FastAPI (was MISSING)
+    "docker>=7.1.0",             # programmatic image builds (optional)
+    # --- Monitoring ------------------------------------------------------
+    "evidently>=0.7.21",         # data-drift reports (0.7 API; see BUILD_PLAN §0)
+    # --- Scheduling ------------------------------------------------------
+    "prefect>=3.6.27",           # schedules the Kedro pipelines (week-4 lab)
+    # --- Data source / tooling -------------------------------------------
+    "ucimlrepo>=0.0.7",          # fetch the dataset reproducibly
+    "ipywidgets>=8.1.8",
+    "jupyterlab>=4.5.6",
+    "setuptools<81",             # keeps pkg_resources available for older deps
+    "confluent-kafka>=2.14.0",   # REQUIRED by hopsworks (hsfs imports it) — do NOT remove
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+]
+
+[tool.kedro]
+package_name = "my_mlops_project"
+project_name = "my_mlops_project"
+kedro_init_version = "1.3.1"
+
+[tool.pytest.ini_options]
+# Put src/ (and serving/) on the import path for tests.
+pythonpath = ["src", "serving"]
+testpaths = ["tests"]
+
+[tool.kedro_telemetry]
+project_id = "8caea5b5a4f34ca48e4b9597cffb1c63"

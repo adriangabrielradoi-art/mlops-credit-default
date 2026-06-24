@@ -1,0 +1,22 @@
+# Keep the Docker build context small — exclude everything the image doesn't need.
+.venv/
+.venv-mlops/
+.venv*/
+mlruns/
+mlflow.db
+**/__pycache__/
+**/.ipynb_checkpoints/
+.pytest_cache/
+.git/
+notebooks/
+docs/
+report/
+tests/
+# Data: keep only the champion model the image copies; drop the rest.
+data/01_raw/
+data/02_intermediate/
+data/03_primary/
+data/04_feature/
+data/05_model_input/
+data/07_model_output/
+data/08_reporting/

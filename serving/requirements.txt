@@ -1,0 +1,7 @@
+# Minimal serving deps for the FastAPI champion API (Docker image).
+# scikit-learn is pinned to match the training env so the pickled model unpickles.
+fastapi>=0.115
+uvicorn>=0.30
+scikit-learn>=1.8,<1.9
+pandas>=2.2
+numpy>=2.0

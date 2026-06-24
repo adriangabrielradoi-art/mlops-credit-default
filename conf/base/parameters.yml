@@ -1,0 +1,105 @@
+# Kedro parameters — base (shared across environments).
+#
+# Anything that nodes need that is *not* a dataset goes here:
+# - Hyperparameter search spaces
+# - Train/val/test split ratios
+# - Random seeds
+# - Thresholds (drift, classification cutoffs, etc.)
+#
+# Nodes consume these via ``inputs="params:<name>"`` in pipeline.py.
+# TODO(dataset): populate once the dataset and modelling approach are
+# decided.
+
+# ---- Global reproducibility -----------------------------------------
+random_seed: 42                       # use everywhere a seed is required
+
+# ---- data_quality ---------------------------------------------------
+# Drives the Great Expectations suite in the data_quality pipeline. Tuned to
+# PASS on the real UCI data while still catching a genuinely broken batch.
+data_quality:
+  expected_column_count: 25           # ID + 23 features + target
+  target_column: "default payment next month"
+  ranges:                             # numeric sanity bounds (row-level)
+    AGE: {min: 18, max: 100}
+    LIMIT_BAL: {min: 0}
+  value_sets:                         # allowed category codes (catch rogue values)
+    SEX: [1, 2]
+    EDUCATION: [0, 1, 2, 3, 4, 5, 6]  # 0,5,6 undocumented but real -> consolidated in cleaning
+    MARRIAGE: [0, 1, 2, 3]            # 0 undocumented -> consolidated in cleaning
+    "default payment next month": [0, 1]
+  not_null: ["ID", "LIMIT_BAL", "AGE", "default payment next month"]
+
+# ---- data_cleaning --------------------------------------------------
+# Cleaning policy as config. Rationale + evidence: notebooks/02_data_cleaning.ipynb.
+data_cleaning:
+  id_column: "ID"
+  target_column_raw: "default payment next month"
+  target_column: "default"
+  category_merges:                    # undocumented codes -> documented "other"
+    EDUCATION: {from: [0, 5, 6], to: 4}   # 0,5,6 are ~1.15% of rows, unexplained
+    MARRIAGE: {from: [0], to: 3}          # 0 is ~0.18% of rows, unexplained
+  # PAY_* columns are intentionally NOT touched: undocumented -2 is ~22% of rows
+  # and meaningful (no credit used) — part of the ordinal repayment scale.
+
+# ---- data_feat_engineering ------------------------------------------
+# Feature groups for the Hopsworks feature store (also written locally as
+# 04_feature/feature_table.parquet, which is the canonical downstream input).
+data_feat_engineering:
+  primary_key: customer_id
+  event_time: event_time
+  feature_group_version: 1
+  feature_groups:                     # name -> columns (besides key + event_time)
+    credit_demographic: [LIMIT_BAL, SEX, EDUCATION, MARRIAGE, AGE, default]
+    credit_payment_status: [PAY_0, PAY_2, PAY_3, PAY_4, PAY_5, PAY_6,
+                            pay_delay_max, pay_delay_mean, n_months_delayed]
+    credit_bill: [BILL_AMT1, BILL_AMT2, BILL_AMT3, BILL_AMT4, BILL_AMT5, BILL_AMT6,
+                  avg_bill, max_bill, bill_trend, util_ratio]
+    credit_payment_amt: [PAY_AMT1, PAY_AMT2, PAY_AMT3, PAY_AMT4, PAY_AMT5, PAY_AMT6,
+                         avg_pay_amt, total_pay, pct_paid]
+
+# ---- data_split -----------------------------------------------------
+data_split:
+  test_size: 0.20                     # fraction held out for final test
+  val_size: 0.10                      # fraction held out for validation
+  stratify: true                      # stratify by target for classification
+  shuffle: true
+  random_seed: 42                     # mirror of the global seed (reproducible split)
+  target_column: "default"
+  id_columns: ["customer_id", "event_time"]   # dropped from the feature matrix
+
+# ---- model_train ----------------------------------------------------
+model_train:
+  candidate_models: ["LogisticRegression", "RandomForest", "GradientBoosting"]
+  optuna_trials: 15                   # Optuna trials per model family
+  primary_metric: "roc_auc"           # honest on the ~22% class imbalance
+  random_seed: 42
+
+# ---- model_selection ------------------------------------------------
+model_selection:
+  primary_metric: "roc_auc"           # pick the champion by this (matches model_train)
+  higher_is_better: true              # flip to false for error metrics
+  shap_max_samples: 1000              # cap to keep SHAP runtime sane
+  registered_model_name: credit_default_champion   # MLflow registry name
+
+# ---- model_predict --------------------------------------------------
+model_predict:
+  prediction_threshold: 0.5           # classification cutoff — also logged each run
+  shap_sample: 200                    # per-prediction SHAP sample size (Week-6 monitoring L3)
+  # Serving (FastAPI loads the champion from the registry at startup):
+  registered_model_name: credit_default_champion
+  champion_alias: Champion
+
+# ---- data_drifts ----------------------------------------------------
+data_drifts:
+  # Drift-sample construction: a clean control batch + a biased batch that
+  # induces drift (rubric sanctions "play with your sample to generate drift").
+  sample_size: 2000
+  bias_column: "AGE"                  # bias the drifted batch toward older customers
+  bias_quantile: 0.85                 # keep AGE >= 85th pct -> a genuinely older cohort
+  # Detection thresholds (Week 6 lecture):
+  psi_threshold: 0.20                 # PSI >= 0.20 flags a feature (significant band)
+  ks_p_value_threshold: 0.05          # KS test — numeric features
+  js_threshold: 0.10                  # JS divergence — categorical-style shift
+  pca_components: 5                   # multivariate: PCA reconstruction-error model
+  pca_drift_ratio: 1.5                # current recon error > 1.5x reference -> drift
+  trigger_retrain_on_drift: false     # if true, drift would trigger retraining

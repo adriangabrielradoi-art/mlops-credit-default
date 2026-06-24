@@ -1,0 +1,19 @@
+# kedro-mlflow configuration (read by the MlflowHook in settings.py).
+# Lives in conf/base so it is shared/committed (reproducible for the grader);
+# secrets never go here — Hopsworks keys live in conf/local/credentials.yml.
+
+server:
+  # Local SQLite tracking store — no server needed; everyone reproduces it.
+  mlflow_tracking_uri: sqlite:///mlflow.db
+
+tracking:
+  experiment:
+    # All runs of this project group under one experiment.
+    name: credit_default
+    restore_if_deleted: true
+  run:
+    # Allow nested runs (Optuna trials nest under a parent run in model_train).
+    nested: true
+  # Keep kedro-mlflow's own autologging off; we log explicitly in nodes.
+  disable_tracking:
+    disable_autologging: true
