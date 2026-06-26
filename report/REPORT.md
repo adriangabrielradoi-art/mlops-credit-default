@@ -34,16 +34,20 @@ primary target is met.
 
 ## 3. Project planning (agile sprints)
 
-We organised the work as one **Kedro pipeline per concern** (eight in total), each an
-ownership boundary, and scheduled them over five one-week sprints to the 30/06 deadline.
+We organised the work as one **Kedro pipeline per concern**: eight stages that run in
+sequence (Figure 1), each an independent, rerunnable module. We scheduled the work across
+five one-week sprints to the 30/06 deadline.
 
-| Sprint | Focus (pipelines) | Lead |
+![](figures/pipeline_diagram.png){width=82%}
+*Figure 1. The eight-stage Kedro pipeline (how the steps are organised). Each stage is its own module and feeds the next; any stage can also be run on its own.*
+
+| Sprint | Dates | Focus (pipelines) |
 |---|---|---|
-| 1 | Group setup, dataset choice, EDA, `data_quality` (Great Expectations) | Adrian |
-| 2 | `data_cleaning`, `data_feat_engineering` + Hopsworks feature store | Lorenzo |
-| 3 | `data_split` (+ drift reference), `model_train` (MLflow + Optuna) | *[member 3]* |
-| 4 | `model_selection` (+ SHAP, registry), `model_predict` (FastAPI + Docker) | Adrian / Lorenzo |
-| 5 | `data_drifts` (Evidently), unit tests, report, packaging | all |
+| 1 | 26/05-01/06 | Group setup, dataset choice, EDA, `data_quality` (Great Expectations) |
+| 2 | 02/06-08/06 | `data_cleaning`, `data_feat_engineering` + Hopsworks feature store |
+| 3 | 09/06-15/06 | `data_split` (+ drift reference), `model_train` (MLflow + Optuna) |
+| 4 | 16/06-22/06 | `model_selection` (+ SHAP, registry), `model_predict` (FastAPI + Docker) |
+| 5 | 23/06-30/06 | `data_drifts` (Evidently), unit tests, report, packaging |
 
 Cross-cutting infrastructure (MLflow tracking, the `data/` 8-layer convention, the
 catalog and parameters) was set up in Sprint 1 so every later pipeline plugged into it.
@@ -83,8 +87,8 @@ Model Registry** under the alias `Champion`. Random Forest is within 0.002 and h
 better F1 and PR-AUC, a genuine trade-off. If recall on defaulters mattered more than
 ranking quality, RF (or a lower decision threshold) would be defensible.
 
-![](../data/08_reporting/model_comparison.png){width=58%}
-*Figure 1. Validation ROC-AUC across the three Optuna-tuned model families.*
+![](figures/model_comparison.png){width=58%}
+*Figure 2. Validation ROC-AUC across the three Optuna-tuned model families.*
 
 **Explainability (SHAP).** The global SHAP summary (`shap_summary.png`) ranks the most
 recent repayment status `PAY_0` first, followed by **our engineered features**
@@ -94,8 +98,8 @@ This is both **intuitive** (recent repayment behaviour dominates credit risk) an
 Per-prediction SHAP is logged for scored clients so any decision can be explained and
 audited.
 
-![](../data/08_reporting/shap_summary.png){width=66%}
-*Figure 2. Global SHAP summary: repayment-status and engineered delay and utilisation features dominate.*
+![](figures/shap_summary.png){width=66%}
+*Figure 3. Global SHAP summary: repayment-status and engineered delay and utilisation features dominate.*
 
 **Drift validation.** To prove the monitoring works on a static dataset, we compared the
 training reference against two test batches: a **clean** control and a **biased** batch
@@ -107,8 +111,8 @@ that univariate PSI catches but that does not break the feature correlation stru
 The two methods are complementary by design. Batch inference scored the **5,993** test
 clients at a 11.8% predicted default rate.
 
-![](../data/08_reporting/drift_psi_bars.png){width=58%}
-*Figure 3. PSI per feature on the biased batch. Only the age-correlated demographics cross the 0.20 drift threshold (red).*
+![](figures/drift_psi_bars.png){width=58%}
+*Figure 4. PSI per feature on the biased batch. Only the age-correlated demographics cross the 0.20 drift threshold (red).*
 
 ## 5. Production discussion: advantages, risks, mitigations
 

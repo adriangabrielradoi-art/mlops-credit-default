@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  body { margin: 0; padding: 16px; background: #ffffff;
+         font-family: "Segoe UI", system-ui, sans-serif; }
+  .mermaid { display: inline-block; }
+  .nodeLabel, .nodeLabel p, .nodeLabel div, .nodeLabel span { white-space: nowrap !important; }
+</style>
+</head>
+<body>
+<pre class="mermaid">
+flowchart TB
+  subgraph s1 [" "]
+    direction LR
+    A["<b>1. data_quality</b><br/>validate raw data"] --> B["<b>2. data_cleaning</b><br/>clean + merge codes"] --> C["<b>3. data_feat_engineering</b><br/>engineer features + store"] --> D["<b>4. data_split</b><br/>train / val / test"]
+  end
+  subgraph s2 [" "]
+    direction LR
+    E["<b>5. model_train</b><br/>train + tune (Optuna)"] --> F["<b>6. model_selection</b><br/>champion + SHAP"] --> G["<b>7. model_predict</b><br/>serve + batch score"] --> H["<b>8. data_drifts</b><br/>monitor drift"]
+  end
+  D --> E
+  classDef s fill:#eef2f6,stroke:#14365d,stroke-width:1px,color:#111;
+  class A,B,C,D,E,F,G,H s;
+  style s1 fill:none,stroke:none;
+  style s2 fill:none,stroke:none;
+</pre>
+<script>
+  mermaid.initialize({ startOnLoad: true, securityLevel: "loose",
+    themeVariables: { fontSize: "20px", fontFamily: "Segoe UI, sans-serif" },
+    flowchart: { htmlLabels: true, curve: "basis", nodeSpacing: 40, rankSpacing: 45 } });
+</script>
+</body>
+</html>

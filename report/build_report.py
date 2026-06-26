@@ -29,7 +29,7 @@ COVER = dict(
     members=[
         "Adrian Radoi (20250353)",
         "Lorenzo Simonazzi (20250402)",
-        "[third member — name &amp; student number]",
+        "Diogo Braga (20250412)",
     ],
     runline=("Repository: <b>github.com/adriangabrielradoi-art/mlops-credit-default</b>. "
              "Run with <code>uv sync</code> then <code>kedro run</code>, "
