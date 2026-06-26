@@ -1,4 +1,4 @@
-# `tests/` — Pytest suite
+# `tests/`: Pytest suite
 
 Mirrors `src/my_mlops_project/pipelines/`. One folder per sub-pipeline.
 
@@ -18,6 +18,6 @@ Mirrors `src/my_mlops_project/pipelines/`. One folder per sub-pipeline.
 
 - Test files: `test_<thing>.py` (pytest auto-discovery).
 - Test functions: `test_<behavior>()`.
-- Import node functions from `nodes.py` directly — do **not** import
+- Import node functions from `nodes.py` directly. Do **not** import
   Kedro to unit-test pure-Python nodes.
 - Shared synthetic DataFrames live in `tests/conftest.py`.

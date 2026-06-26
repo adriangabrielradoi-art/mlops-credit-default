@@ -1,4 +1,4 @@
-# Pipeline — Data Quality (`data_quality`)
+# Pipeline: Data Quality (`data_quality`)
 
 ## Purpose
 
@@ -29,7 +29,7 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 
 ## Companion notebook
 
-[`notebooks/` — find the entry for `data_quality`](../../../../notebooks/)
+[`notebooks/`. Find the entry for `data_quality`](../../../../notebooks/)
 
 ## TODOs before this pipeline is production-ready
 

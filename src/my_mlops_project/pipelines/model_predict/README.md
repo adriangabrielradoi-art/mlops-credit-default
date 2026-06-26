@@ -1,4 +1,4 @@
-# Pipeline — Model Prediction & Serving (`model_predict`)
+# Pipeline: Model Prediction & Serving (`model_predict`)
 
 ## Purpose
 
@@ -13,12 +13,11 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 - **Primary:** FastAPI (the inference service), Docker (the runtime).
 - **Class reference:** Week 4 / 5.
 - **Patterns from Week 5 lecture to apply:**
-  - **Two prediction modes** — `predict_batch` (consumes `X_test`,
+  - **Two prediction modes** , `predict_batch` (consumes `X_test`,
     writes `predictions.parquet`) and `predict_online` (FastAPI
     handler). Same scoring function, different drivers.
   - **Load champion at startup, not at build time.** The FastAPI app
-    reads the champion URI from the MLflow registry on startup —
-    models are NOT baked into the image (Week 5 slide 35).
+    reads the champion URI from the MLflow registry on startup. Models are NOT baked into the image (Week 5 slide 35).
   - **Image tagging:** tag by git SHA, never `:latest`. The build
     script lives at `scripts/build_image.ps1`.
   - **Container scope:** the Docker image ships *only* the serving
@@ -30,7 +29,7 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
   summary from `model_selection` can be drilled into per-row.
 - **Decision logging:** `log_decision_metrics` writes
   `data/08_reporting/decision_log.csv` per run (threshold used,
-  FP/TN counts) — feeds the Week 6 mitigation playbook.
+  FP/TN counts). Feeds the Week 6 mitigation playbook.
 
 ## Inputs (catalog entries this pipeline consumes)
 
@@ -52,7 +51,7 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 
 ## Companion notebook
 
-[`notebooks/` — find the entry for `model_predict`](../../../../notebooks/)
+[`notebooks/`. Find the entry for `model_predict`](../../../../notebooks/)
 
 ## TODOs before this pipeline is production-ready
 

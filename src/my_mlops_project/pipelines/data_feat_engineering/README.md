@@ -1,4 +1,4 @@
-# Pipeline — Feature Engineering (`data_feat_engineering`)
+# Pipeline: Feature Engineering (`data_feat_engineering`)
 
 ## Purpose
 
@@ -29,7 +29,7 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 
 ## Companion notebook
 
-[`notebooks/` — find the entry for `data_feat_engineering`](../../../../notebooks/)
+[`notebooks/`. Find the entry for `data_feat_engineering`](../../../../notebooks/)
 
 ## TODOs before this pipeline is production-ready
 

@@ -1,4 +1,4 @@
-# Serving — FastAPI champion API
+# Serving: FastAPI champion API
 
 Online inference for the credit-default champion model (rubric component 4:
 *model serving + containers*). The batch counterpart is the Kedro
@@ -8,10 +8,10 @@ Online inference for the credit-default champion model (rubric component 4:
 ```
 serving/
 ├── app/
-│   ├── main.py      FastAPI app: lifespan model-load, /predict, /health, /ready
-│   └── loader.py    load champion: env pickle -> MLflow registry -> local pickle
+│ ├── main.py FastAPI app: lifespan model-load, /predict, /health, /ready
+│ └── loader.py load champion: env pickle -> MLflow registry -> local pickle
 ├── requirements.txt minimal serving deps
-└── Dockerfile       container image
+└── Dockerfile container image
 ```
 
 ## Run locally (no Docker)
@@ -40,16 +40,16 @@ docker run -p 8000:8000 credit-default-api:dev
 |---|---|---|
 | `/predict` | POST | `{"features": {...}}` -> `{default_probability, prediction, threshold}` |
 | `/health` | GET | liveness (process up) |
-| `/ready`  | GET | readiness (model loaded) |
+| `/ready` | GET | readiness (model loaded) |
 
 ## How the champion is loaded
 `app/loader.py` resolves the model in this order: `CHAMPION_PATH` env (used by the
 Docker image), then the **MLflow registry** alias `credit_default_champion@Champion`
-(production-correct — loaded at startup, not baked in), then the local pickle.
+(production-correct. Loaded at startup, not baked in), then the local pickle.
 
 ## Production notes (report)
 - One process per container; scale horizontally with more replicas behind a load
-  balancer / Kubernetes (see report §production).
+  balancer / Kubernetes (see report section production).
 - Threshold is env-configurable (`PREDICTION_THRESHOLD`) for blue/green tweaks.
 - In production the image stays model-agnostic and loads the champion from the
   registry at boot, so promoting a new champion needs no rebuild.

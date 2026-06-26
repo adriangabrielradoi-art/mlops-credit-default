@@ -1,4 +1,4 @@
-# Pipeline — Data Cleaning (`data_cleaning`)
+# Pipeline: Data Cleaning (`data_cleaning`)
 
 ## Purpose
 
@@ -29,7 +29,7 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 
 ## Companion notebook
 
-[`notebooks/` — find the entry for `data_cleaning`](../../../../notebooks/)
+[`notebooks/`. Find the entry for `data_cleaning`](../../../../notebooks/)
 
 ## TODOs before this pipeline is production-ready
 

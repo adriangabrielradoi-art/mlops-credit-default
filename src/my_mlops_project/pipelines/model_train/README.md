@@ -1,4 +1,4 @@
-# Pipeline — Model Training (`model_train`)
+# Pipeline: Model Training (`model_train`)
 
 ## Purpose
 
@@ -29,7 +29,7 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 
 ## Companion notebook
 
-[`notebooks/` — find the entry for `model_train`](../../../../notebooks/)
+[`notebooks/`. Find the entry for `model_train`](../../../../notebooks/)
 
 ## TODOs before this pipeline is production-ready
 

@@ -1,4 +1,4 @@
-# Pipeline — Model Selection (`model_selection`)
+# Pipeline: Model Selection (`model_selection`)
 
 ## Purpose
 
@@ -19,10 +19,10 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 
 ## Outputs (catalog entries this pipeline produces)
 
-- `champion_model` (`data/06_models/`) — also tagged in the MLflow
+- `champion_model` (`data/06_models/`). Also tagged in the MLflow
   registry; downstream services (FastAPI) load from the registry, not
   the pickle file.
-- `shap_summary.png` (`data/08_reporting/`) — the **global** SHAP
+- `shap_summary.png` (`data/08_reporting/`), the **global** SHAP
   summary across the validation set. Per-prediction SHAP values are
   emitted by `model_predict` (Week 6 monitoring level 3), not here.
 
@@ -34,7 +34,7 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 
 ## Companion notebook
 
-[`notebooks/` — find the entry for `model_selection`](../../../../notebooks/)
+[`notebooks/`. Find the entry for `model_selection`](../../../../notebooks/)
 
 ## TODOs before this pipeline is production-ready
 

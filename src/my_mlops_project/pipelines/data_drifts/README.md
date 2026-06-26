@@ -1,4 +1,4 @@
-# Pipeline — Data Drift Monitoring (`data_drifts`)
+# Pipeline: Data Drift Monitoring (`data_drifts`)
 
 ## Purpose
 
@@ -12,13 +12,13 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 
 - **Primary:** Evidently for the consolidated HTML report.
 - **Statistical tests done explicitly** (Week 6 lecture):
-  - **PSI** per feature — interpret with the bands `<0.1` stable,
-    `<0.2` moderate, `≥0.2` significant drift.
+  - **PSI** per feature. Interpret with the bands `<0.1` stable,
+    `<0.2` moderate, `>=0.2` significant drift.
   - **KS test** for numeric features (CDF-based, p-value driven).
   - **JS divergence** for categorical features (symmetric, handles zero
-    probabilities — preferred over KL).
+    probabilities. Preferred over KL).
   - **PCA reconstruction error** for *multivariate* drift (univariate
-    tests miss correlated shifts — Week 6 lecture slide 26). The PCA
+    tests miss correlated shifts. Week 6 lecture slide 26). The PCA
     object itself is fit once in `model_train` and cached at
     `data/06_models/drift_pca.pkl`.
   - Optional: **ADWIN** (sliding-window) for concept drift on the
@@ -34,11 +34,11 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 
 ## Outputs (catalog entries this pipeline produces)
 
-- `psi_per_feature` (`data/08_reporting/psi.csv`) — table with PSI band.
-- `drift_report.html` (`data/08_reporting/`) — Evidently consolidated.
-- `drift_flags` (`data/07_model_output/drift_flags.json`) — boolean per
+- `psi_per_feature` (`data/08_reporting/psi.csv`). Table with PSI band.
+- `drift_report.html` (`data/08_reporting/`). Evidently consolidated.
+- `drift_flags` (`data/07_model_output/drift_flags.json`). Boolean per
   feature + overall, used by the retrain-trigger hook.
-- `monitoring_dashboard.html` (`data/08_reporting/`) — **final node**
+- `monitoring_dashboard.html` (`data/08_reporting/`) , **final node**
   aggregates GE summary, training metrics, SHAP, drift table. This is
   the single artifact the grader will open.
 
@@ -50,7 +50,7 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 
 ## Companion notebook
 
-[`notebooks/` — find the entry for `data_drifts`](../../../../notebooks/)
+[`notebooks/`. Find the entry for `data_drifts`](../../../../notebooks/)
 
 ## TODOs before this pipeline is production-ready
 

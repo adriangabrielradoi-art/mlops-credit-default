@@ -1,4 +1,4 @@
-# Pipeline — Data Split (`data_split`)
+# Pipeline: Data Split (`data_split`)
 
 ## Purpose
 
@@ -20,8 +20,7 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 ## Outputs (catalog entries this pipeline produces)
 
 - `X_train, X_val, X_test, y_train, y_val, y_test` (`data/05_model_input/`).
-- **`reference_distribution`** (`data/03_primary/reference_distribution.parquet`)
-  — a snapshot of the training feature distribution (column stats,
+- **`reference_distribution`** (`data/03_primary/reference_distribution.parquet`), a snapshot of the training feature distribution (column stats,
   quantiles) that `data_drifts` will diff against in production. This
   is the canonical drift baseline; only `data_split` writes it, and it
   is rewritten only when retraining. Its hash is logged to MLflow by
@@ -35,7 +34,7 @@ See the full ordering in the [project CLAUDE.md](../../../../CLAUDE.md#4-pipelin
 
 ## Companion notebook
 
-[`notebooks/` — find the entry for `data_split`](../../../../notebooks/)
+[`notebooks/`. Find the entry for `data_split`](../../../../notebooks/)
 
 ## TODOs before this pipeline is production-ready
 
