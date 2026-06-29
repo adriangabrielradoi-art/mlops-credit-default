@@ -25,7 +25,6 @@ COVER = dict(
     university="Universidade Nova de Lisboa",
     title="Credit Card Default Prediction",
     subtitle="An End-to-End, Reproducible MLOps Pipeline",
-    group="Group: [group name]",
     members=[
         "Adrian Radoi (20250353)",
         "Lorenzo Simonazzi (20250402)",
@@ -77,8 +76,7 @@ def cover_html():
     <div class="small">{COVER['university']}</div></div>
   <div class="title">{COVER['title']}</div>
   <div class="subtitle">{COVER['subtitle']}</div>
-  <div class="blk"><div class="group">{COVER['group']}</div>
-    <div class="members">{members}</div></div>
+  <div class="blk"><div class="members">{members}</div></div>
   <div class="runline">{COVER['runline']}</div>
   <div class="date">{COVER['date']}</div>
 </div>"""
